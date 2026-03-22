@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openclaw-gpu-cloud"
+version = "0.1.0"
+description = "OpenClaw 云GPU调度插件 - 无本地GPU时自动调度云资源"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "tailong-wu", email = "tailong-wu@users.noreply.github.com"}
+]
+keywords = ["openclaw", "gpu", "cloud", "scheduler", "ai", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tailong-wu/openclaw-gpu-cloud"
+Documentation = "https://github.com/tailong-wu/openclaw-gpu-cloud#readme"
+Repository = "https://github.com/tailong-wu/openclaw-gpu-cloud"
+Issues = "https://github.com/tailong-wu/openclaw-gpu-cloud/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["openclaw_gpu_cloud*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
