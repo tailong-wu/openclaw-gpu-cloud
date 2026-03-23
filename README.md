@@ -21,31 +21,71 @@
 
 ## 🛠️ 快速开始
 
-### 前置要求
+### 安装
 
 ```bash
 pip install openclaw-gpu-cloud
 ```
 
-### 配置云平台 API Key
+### 配置云平台
+
+#### AutoDL（推荐国内用户）
+
+AutoDL 使用 Playwright 模拟浏览器操作，需要设置用户名密码：
 
 ```bash
-# AutoDL
-export AUTODL_API_KEY="your-autodl-key"
+export AUTODL_USERNAME="your-username"
+export AUTODL_PASSWORD="your-password"
 
-# 或者其他平台
+# 安装 Playwright 浏览器（仅首次）
+playwright install chromium
+```
+
+首次登录时建议使用非无头模式，方便输入验证码。
+
+详细说明见 [docs/AUTODL_SETUP.md](docs/AUTODL_SETUP.md)
+
+#### 其他平台（有 API）
+
+```bash
+# Lambda Lab
 export LAMBDA_API_KEY="your-lambda-key"
+
+# Vast.ai
+export VAST_API_KEY="your-vast-key"
+
+# RunPod
+export RUNPOD_API_KEY="your-runpod-key"
 ```
 
 ### 使用示例
 
+#### AutoDL（Playwright 模拟）
+
 ```python
 from openclaw_gpu_cloud import CloudScheduler
 
-# 创建调度器
-scheduler = CloudScheduler(budget=10.0)  # 预算 10 美元
+# 创建调度器，指定 AutoDL
+scheduler = CloudScheduler(preferred_platform="autodl")
 
-# 智能预估并启动
+# 预估资源
+预估 = scheduler.estimate(model="llama-7b", task_type="inference")
+print(f"建议: {预估.gpu_type} x {预估.gpu_count}")
+
+# 启动任务
+instance = scheduler.launch(requirements=预估, workdir="./my-task")
+print(f"实例已创建: {instance.ip}")
+```
+
+#### 其他平台（API）
+
+```python
+from openclaw_gpu_cloud import CloudScheduler
+
+# 创建调度器，指定平台
+scheduler = CloudScheduler(preferred_platform="vastai")
+
+# 预估资源
 预估 = scheduler.estimate(
     model="llama-7b",
     dataset_size="10GB",
